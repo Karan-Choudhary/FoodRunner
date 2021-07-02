@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">FoodRunner</string>
     <string name="foodrunner">FoodRunner</string>
+    <string name="mobile_number_text">Mobile Number(10 digits)</string>
+    <string name="password_text">Password</string>
+    <string name="forget_password">Forget Password?</string>
+    <string name="goto_signup">Don\'t have an account? Sign up now</string>
 </resources>

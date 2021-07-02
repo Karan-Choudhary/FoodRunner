@@ -1,7 +1,8 @@
-package com.karan.foodrunner
+package com.karan.foodrunner.Activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.karan.foodrunner.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -5,4 +5,5 @@
     <string name="password_text">Password</string>
     <string name="forget_password">Forget Password?</string>
     <string name="goto_signup">Don\'t have an account? Sign up now</string>
+    <string name="preference_file_name">Login Preferences</string>
 </resources>

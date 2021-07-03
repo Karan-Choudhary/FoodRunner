@@ -66,8 +66,7 @@ class ForgetPasswordActivity : AppCompatActivity() {
                     }
                                                                                                                 
                 }, Response.ErrorListener {
-
-                    Toast.makeText(this, "Some Unexpected error occurred", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Enter Correct Details!!!", Toast.LENGTH_SHORT).show()
                     
                 }){
                     override fun getHeaders(): MutableMap<String, String> {

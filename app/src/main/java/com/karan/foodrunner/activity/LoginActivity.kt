@@ -130,6 +130,11 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        txtGoToSignUp.setOnClickListener {
+            val intent = Intent(this,Register::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun savePreferences(user_id:String ,name:String, email:String, mobile_number:String, address:String) {

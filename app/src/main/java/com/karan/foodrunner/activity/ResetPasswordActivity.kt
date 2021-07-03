@@ -39,86 +39,92 @@ class ResetPasswordActivity : AppCompatActivity() {
         etConfirmPassword = findViewById(R.id.etConfirmPassword)
         btnSubmit = findViewById(R.id.btnSubmit)
 
-        if(etNewPassword.text.toString().equals(etConfirmPassword.text.toString()))
+        if(etNewPassword.text.toString() == etConfirmPassword.text.toString())
         {
 //            proceed
-            val phoneNum = intent.getStringExtra("mobile_number").toString()
+    
+            if(intent!=null)
+            {
+                val phoneNum = intent.getStringExtra("mobile_number").toString()
 
-            btnSubmit.setOnClickListener {
+                btnSubmit.setOnClickListener {
 
-                val newPass = etNewPassword.text.toString()
-                val otp = etOTP.text.toString()
+                    val newPass = etNewPassword.text.toString()
+                    val otp = etOTP.text.toString()
 
-                val queue = Volley.newRequestQueue(this)
-                val url = "http://13.235.250.119/v2/reset_password/fetch_result"
+                    val queue = Volley.newRequestQueue(this)
+                    val url = "http://13.235.250.119/v2/reset_password/fetch_result"
 
-                val jsonParams = JSONObject()
-                jsonParams.put("mobile_number",phoneNum)
-                jsonParams.put("password",newPass)
-                jsonParams.put("otp",otp)
+                    val jsonParams = JSONObject()
+                    jsonParams.put("mobile_number",phoneNum)
+                    jsonParams.put("password",newPass)
+                    jsonParams.put("otp",otp)
 
-                if(ConnectionManager().checkConnectivity(this))
-                {
+                    if(ConnectionManager().checkConnectivity(this))
+                    {
 
-                    val jsonObjectRequest = object: JsonObjectRequest(Request.Method.POST,url,jsonParams,Response.Listener {
+                        val jsonObjectRequest = object: JsonObjectRequest(Request.Method.POST,url,jsonParams,Response.Listener {
 
-                        try {
-                            val data = it.getJSONObject("data")
-                            val success = data.getBoolean("success")
+                            try {
+                                val data = it.getJSONObject("data")
+                                val success = data.getBoolean("success")
 
-                            if(success)
+                                if(success)
+                                {
+                                    clearPreferences()
+                                    val intent = Intent(this,LoginActivity::class.java)
+                                    startActivity(intent)
+                                    finish()
+                                    Toast.makeText(this, "Password Changed Successfully", Toast.LENGTH_SHORT).show()
+                                } else{
+                                    Toast.makeText(this, "Unsuccessful!! Please try again later", Toast.LENGTH_SHORT).show()
+                                }
+
+                            } catch (e : Exception)
                             {
-                                clearPreferences()
-                                val intent = Intent(this,LoginActivity::class.java)
-                                startActivity(intent)
-                                finish()
+                                Toast.makeText(this, "Some error occurred !!!", Toast.LENGTH_SHORT).show()
                             }
 
-                        } catch (e : Exception)
-                        {
-                            Toast.makeText(this, "Some error occurred !!!", Toast.LENGTH_SHORT).show()
+                        },Response.ErrorListener {
+
+                            Toast.makeText(this, "Some unexpected error occurred!!!", Toast.LENGTH_SHORT).show()
+
+                        }){
+                            override fun getHeaders(): MutableMap<String, String> {
+                                val headers = HashMap<String,String>()
+                                headers["Content-type"] = "application/json"
+                                headers["token"] = "957582bfd2ec65"
+                                return headers
+                            }
                         }
 
-                    },Response.ErrorListener {
-
-                        Toast.makeText(this, "Some unexpected error occurred!!!", Toast.LENGTH_SHORT).show()
-
-                    }){
-                        override fun getHeaders(): MutableMap<String, String> {
-                            val headers = HashMap<String,String>()
-                            headers["Content-type"] = "application/json"
-                            headers["token"] = "957582bfd2ec65"
-                            return headers
+                    } else{
+                        val dialog = AlertDialog.Builder(this)
+                        dialog.setTitle("Error")
+                        dialog.setMessage("Internet Connection is not Found")
+                        dialog.setPositiveButton("Open Settings"){_,_ ->
+                            val settingIntent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
+                            startActivity(settingIntent)
+                            this?.finish()
                         }
+
+                        dialog.setNegativeButton("Exit"){_,_ ->
+                            ActivityCompat.finishAffinity(this as Activity)
+                        }
+                        dialog.create()
+                        dialog.show()
                     }
 
-                } else{
-                    val dialog = AlertDialog.Builder(this)
-                    dialog.setTitle("Error")
-                    dialog.setMessage("Internet Connection is not Found")
-                    dialog.setPositiveButton("Open Settings"){_,_ ->
-                        val settingIntent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
-                        startActivity(settingIntent)
-                        this?.finish()
-                    }
 
-                    dialog.setNegativeButton("Exit"){_,_ ->
-                        ActivityCompat.finishAffinity(this as Activity)
-                    }
-                    dialog.create()
-                    dialog.show()
                 }
 
-
+            } else {
+                Toast.makeText(this, "Some Unexpected Error occurred please try again later", Toast.LENGTH_SHORT).show()
             }
-
         }
         else{
             Toast.makeText(this, "New Password and Confirm password is not same", Toast.LENGTH_SHORT).show()
         }
-
-
-
     }
 
     private fun clearPreferences()

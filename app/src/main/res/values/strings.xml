@@ -11,4 +11,7 @@
     <string name="head_text">Enter the received OTP below</string>
     <string name="new_pass">New Password(Min 4 characters)</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="name">Name(Min 3 characters)</string>
+    <string name="delivery_address">Delivery Address</string>
+    <string name="register_password">Password(Min 4 character)</string>
 </resources>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.Register"
+    android:background="@color/red_500">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="0dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:title="Register Yourself"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark"
+                app:layout_scrollFlags="scroll|enterAlways" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <FrameLayout
+            android:id="@+id/frame"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:backgroundTint="@color/red_500"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    app:cardCornerRadius="4dp">
+
+                    <EditText
+                        android:id="@+id/etName"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:hint="@string/name"
+                        android:backgroundTint="@color/white"
+                        android:maxLines="1"
+                        android:background="@color/white"
+                        android:textSize="16sp"
+                        android:drawableLeft="@drawable/ic_name"
+                        android:drawablePadding="4dp"/>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvEmailAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cvName"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/red_500"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    app:cardCornerRadius="4dp">
+
+                    <EditText
+                        android:id="@+id/etEmailAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:hint="@string/email_address"
+                        android:backgroundTint="@color/white"
+                        android:maxLines="1"
+                        android:background="@color/white"
+                        android:textSize="16sp"
+                        android:drawableLeft="@drawable/ic_email"
+                        android:drawablePadding="4dp"/>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvMobileNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cvEmailAddress"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/red_500"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    app:cardCornerRadius="4dp">
+
+                    <EditText
+                        android:id="@+id/etMobileNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:hint="@string/mobile_number_text"
+                        android:backgroundTint="@color/white"
+                        android:maxLines="1"
+                        android:maxLength="10"
+                        android:background="@color/white"
+                        android:textSize="16sp"
+                        android:drawableLeft="@drawable/ic_mobile_number"
+                        android:inputType="number"
+                        android:drawablePadding="4dp"/>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvDelAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cvMobileNumber"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/red_500"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    app:cardCornerRadius="4dp">
+
+                    <EditText
+                        android:id="@+id/etDeliveryAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:hint="@string/delivery_address"
+                        android:backgroundTint="@color/white"
+                        android:maxLines="2"
+                        android:background="@color/white"
+                        android:textSize="16sp"
+                        android:drawableLeft="@drawable/ic_delivery"
+                        android:drawablePadding="4dp"/>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cvDelAddress"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/red_500"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    app:cardCornerRadius="4dp">
+
+                    <EditText
+                        android:id="@+id/etPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:hint="@string/register_password"
+                        android:backgroundTint="@color/white"
+                        android:maxLines="1"
+                        android:inputType="numberPassword"
+                        android:background="@color/white"
+                        android:textSize="16sp"
+                        android:drawableLeft="@drawable/ic_password"
+                        android:drawablePadding="4dp"/>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvConfirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cvPassword"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/red_500"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    app:cardCornerRadius="4dp">
+
+                    <EditText
+                        android:id="@+id/etConfirmPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:hint="@string/confirm_password"
+                        android:backgroundTint="@color/white"
+                        android:maxLines="1"
+                        android:inputType="numberPassword"
+                        android:background="@color/white"
+                        android:textSize="16sp"
+                        android:drawableLeft="@drawable/ic_password"
+                        android:drawablePadding="4dp"/>
+                </androidx.cardview.widget.CardView>
+
+                <Button
+                    android:id="@+id/btnRegister"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:text="Register"
+                    android:textAllCaps="false"
+                    android:layout_below="@+id/cvConfirmPassword"
+                    android:layout_marginTop="40dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:backgroundTint="@color/red_A700"
+                    android:padding="4dp"/>
+
+            </RelativeLayout>
+
+
+        </FrameLayout>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</RelativeLayout>

@@ -1,4 +1,4 @@
-package com.karan.foodrunner.Activity
+package com.karan.foodrunner.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

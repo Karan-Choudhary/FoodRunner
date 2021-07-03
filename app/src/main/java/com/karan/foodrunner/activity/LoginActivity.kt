@@ -1,4 +1,4 @@
-package com.karan.foodrunner.Activity
+package com.karan.foodrunner.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -16,7 +16,6 @@ import androidx.core.app.ActivityCompat
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.RequestFuture
 import com.android.volley.toolbox.Volley
 import com.karan.foodrunner.R
 import com.karan.foodrunner.util.ConnectionManager
@@ -124,6 +123,11 @@ class LoginActivity : AppCompatActivity() {
                 dialog.show()
             }
 
+        }
+
+        txtForgetPassword.setOnClickListener{
+            val intent = Intent(this,ForgetPasswordActivity::class.java)
+            startActivity(intent)
         }
 
     }

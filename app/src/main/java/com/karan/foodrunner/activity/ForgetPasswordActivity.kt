@@ -1,11 +1,15 @@
 package com.karan.foodrunner.activity
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -44,7 +48,7 @@ class ForgetPasswordActivity : AppCompatActivity() {
             if(ConnectionManager().checkConnectivity(this))
             {
 
-                val jsonRequest = object: JsonObjectRequest(Request.Method.POST,url,jsonParams,Response.Listener { 
+                val jsonObjectRequest = object: JsonObjectRequest(Request.Method.POST,url,jsonParams,Response.Listener {
                     
                     try{
                         val data = it.getJSONObject("data")
@@ -73,9 +77,22 @@ class ForgetPasswordActivity : AppCompatActivity() {
                         return headers
                     }
                 }
-                queue.add(jsonRequest)
+                queue.add(jsonObjectRequest)
             } else{
-                Toast.makeText(this, "Some Error Occurred!!!", Toast.LENGTH_SHORT).show()
+                val dialog = AlertDialog.Builder(this)
+                dialog.setTitle("Error")
+                dialog.setMessage("Internet Connection is not Found")
+                dialog.setPositiveButton("Open Settings"){_,_ ->
+                    val settingIntent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
+                    startActivity(settingIntent)
+                    this?.finish()
+                }
+
+                dialog.setNegativeButton("Exit"){_,_ ->
+                    ActivityCompat.finishAffinity(this as Activity)
+                }
+                dialog.create()
+                dialog.show()
             }
         }
 

@@ -39,96 +39,119 @@ class ResetPasswordActivity : AppCompatActivity() {
         etConfirmPassword = findViewById(R.id.etConfirmPassword)
         btnSubmit = findViewById(R.id.btnSubmit)
 
-        if(etNewPassword.text.toString() == etConfirmPassword.text.toString())
-        {
-//            proceed
-    
             if(intent!=null)
             {
-                val phoneNum = intent.getStringExtra("mobile_number").toString()
-
                 btnSubmit.setOnClickListener {
 
-                    val newPass = etNewPassword.text.toString()
-                    val otp = etOTP.text.toString()
+                        if(ConnectionManager().checkConnectivity(this))
+                        {
 
-                    val queue = Volley.newRequestQueue(this)
-                    val url = "http://13.235.250.119/v2/reset_password/fetch_result"
-
-                    val jsonParams = JSONObject()
-                    jsonParams.put("mobile_number",phoneNum)
-                    jsonParams.put("password",newPass)
-                    jsonParams.put("otp",otp)
-
-                    if(ConnectionManager().checkConnectivity(this))
-                    {
-
-                        val jsonObjectRequest = object: JsonObjectRequest(Request.Method.POST,url,jsonParams,Response.Listener {
-
-                            try {
-                                val data = it.getJSONObject("data")
-                                val success = data.getBoolean("success")
-
-                                if(success)
-                                {
-                                    clearPreferences()
-                                    val intent = Intent(this,LoginActivity::class.java)
-                                    startActivity(intent)
-                                    Toast.makeText(this, "Password Changed Successfully", Toast.LENGTH_SHORT).show()
-                                    finish()
-                                } else{
-                                    Toast.makeText(this, "Unsuccessful!! Please try again later", Toast.LENGTH_SHORT).show()
-                                }
-
-                            } catch (e : Exception)
+                            if(checkForErrors())
                             {
-                                Toast.makeText(this, "Some error occurred !!!", Toast.LENGTH_SHORT).show()
+                                val queue = Volley.newRequestQueue(this)
+                                val url = "http://13.235.250.119/v2/reset_password/fetch_result"
+
+                                val jsonParams = JSONObject()
+                                jsonParams.put("mobile_number",intent.getStringExtra("mobile_number").toString())
+                                jsonParams.put("password",etNewPassword.text.toString())
+                                jsonParams.put("otp",etOTP.text.toString())
+
+                                val jsonObjectRequest = object: JsonObjectRequest(Request.Method.POST,url,jsonParams,Response.Listener {
+
+                                    try {
+                                        val response = it.getJSONObject("data")
+                                        val success = response.getBoolean("success")
+
+                                        if(success)
+                                        {
+                                            val successMessage =
+                                                response.getString("successMessage")
+
+                                            clearPreferences()
+                                            val intent = Intent(this,LoginActivity::class.java)
+                                            startActivity(intent)
+                                            Toast.makeText(this, successMessage, Toast.LENGTH_SHORT).show()
+                                            finish()
+                                        } else{
+                                            val responseMessageServer =
+                                                response.getString("errorMessage")
+                                            Toast.makeText(
+                                                this,
+                                                responseMessageServer.toString(),
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+
+                                    } catch (e : Exception)
+                                    {
+                                        Toast.makeText(this, "Some error occurred !!!", Toast.LENGTH_SHORT).show()
+                                    }
+
+                                },Response.ErrorListener {
+
+                                    Toast.makeText(this, "Some unexpected error occurred!!!", Toast.LENGTH_SHORT).show()
+
+                                }){
+                                    override fun getHeaders(): MutableMap<String, String> {
+                                        val headers = HashMap<String,String>()
+                                        headers["Content-type"] = "application/json"
+                                        headers["token"] = "957582bfd2ec65"
+                                        return headers
+                                    }
+                                }
+                                queue.add(jsonObjectRequest)
+                            }
+                        } else{
+                            val dialog = AlertDialog.Builder(this)
+                            dialog.setTitle("Error")
+                            dialog.setMessage("Internet Connection is not Found")
+                            dialog.setPositiveButton("Open Settings"){_,_ ->
+                                val settingIntent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
+                                startActivity(settingIntent)
+                                this?.finish()
                             }
 
-                        },Response.ErrorListener {
-
-                            Toast.makeText(this, "Some unexpected error occurred!!!", Toast.LENGTH_SHORT).show()
-
-                        }){
-                            override fun getHeaders(): MutableMap<String, String> {
-                                val headers = HashMap<String,String>()
-                                headers["Content-type"] = "application/json"
-                                headers["token"] = "957582bfd2ec65"
-                                return headers
+                            dialog.setNegativeButton("Exit"){_,_ ->
+                                ActivityCompat.finishAffinity(this as Activity)
                             }
+                            dialog.create()
+                            dialog.show()
                         }
-
-                    } else{
-                        val dialog = AlertDialog.Builder(this)
-                        dialog.setTitle("Error")
-                        dialog.setMessage("Internet Connection is not Found")
-                        dialog.setPositiveButton("Open Settings"){_,_ ->
-                            val settingIntent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
-                            startActivity(settingIntent)
-                            this?.finish()
-                        }
-
-                        dialog.setNegativeButton("Exit"){_,_ ->
-                            ActivityCompat.finishAffinity(this as Activity)
-                        }
-                        dialog.create()
-                        dialog.show()
-                    }
-
-
                 }
 
             } else {
                 Toast.makeText(this, "Some Unexpected Error occurred please try again later", Toast.LENGTH_SHORT).show()
             }
-        }
-        else{
-            Toast.makeText(this, "New Password and Confirm password is not same", Toast.LENGTH_SHORT).show()
-        }
     }
 
     private fun clearPreferences()
     {
         sharedPreferences.edit().clear().apply()
+    }
+
+    fun checkForErrors():Boolean{
+        var noError = 0
+
+        if(etOTP.text.isBlank() || etOTP.text.toString().length!=4)
+        {
+            etOTP.error = "Something is Wrong"
+        }else{
+            noError++
+        }
+
+        if(etNewPassword.text.isBlank() || etNewPassword.text.length <= 4){
+            etNewPassword.error = "Invalid Password"
+        }else
+        {
+            noError++
+        }
+
+        if(etConfirmPassword.text.isBlank() && etConfirmPassword.text.toString().equals(etNewPassword.text.toString())){
+            etConfirmPassword.error = "Field Missing or password does;t match!"
+        }else
+        {
+            noError++
+        }
+        return noError==3
     }
 }

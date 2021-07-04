@@ -13,8 +13,8 @@ class SplashActivity : AppCompatActivity() {
 
         Handler().postDelayed({
             val startAct = Intent(this, LoginActivity::class.java)
-            finish()
             startActivity(startAct)
+            finish()
         },1000)
     }
 }

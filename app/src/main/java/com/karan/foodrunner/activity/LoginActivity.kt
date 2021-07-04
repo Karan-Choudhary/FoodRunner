@@ -85,8 +85,8 @@ class LoginActivity : AppCompatActivity() {
                                     data.getString("address"))
 
                                 val intent = Intent(this,MainActivity::class.java)
-                                finish()
                                 startActivity(intent)
+                                finish()
                             }else{
                                 val responseMessageServer =
                                     response.getString("errorMessage")

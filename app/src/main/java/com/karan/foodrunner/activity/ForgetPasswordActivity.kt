@@ -34,49 +34,63 @@ class ForgetPasswordActivity : AppCompatActivity() {
         btnNext = findViewById(R.id.btnNext)
 
         btnNext.setOnClickListener{
-
-            val phoneNum = etMobileNumber.text.toString()
-            val email = etEmail.text.toString()
-
-            val queue = Volley.newRequestQueue(this)
-            val url = "http://13.235.250.119/v2/forgot _password/fetch_result"
-
-            val jsonParams = JSONObject()
-            jsonParams.put("mobile_number",phoneNum)
-            jsonParams.put("email",email)
-
             if(ConnectionManager().checkConnectivity(this))
             {
 
-                val jsonObjectRequest = object: JsonObjectRequest(Request.Method.POST,url,jsonParams,Response.Listener {
-                    
-                    try{
-                        val data = it.getJSONObject("data")
-                        val success = data.getBoolean("success")
-                        if(success)
-                        {
-                            val intent = Intent(this,ResetPasswordActivity::class.java)
-                            intent.putExtra("mobile_number",phoneNum)
-                            startActivity(intent)
-                        } else{
-                            Toast.makeText(this, "Enter Correct Mobile Number", Toast.LENGTH_SHORT).show()
+                if(checkForError())
+                {
+                    val queue = Volley.newRequestQueue(this)
+                    val url = "http://13.235.250.119/v2/forgot_password/fetch_result"
+
+                    val jsonParams = JSONObject()
+                    jsonParams.put("mobile_number",etMobileNumber.text.toString())
+                    jsonParams.put("email",etEmail.text.toString())
+
+                    val jsonObjectRequest = object: JsonObjectRequest(Request.Method.POST,url,jsonParams,Response.Listener {
+
+                        try{
+                            val response = it.getJSONObject("data")
+                            val success = response.getBoolean("success")
+                            if(success)
+                            {
+
+                                val firstTry = response.getBoolean("first_try")
+                                val intent = Intent(this, ResetPasswordActivity::class.java)
+                                intent.putExtra("mobile_number", etMobileNumber.text.toString())
+
+                                if(firstTry) {
+                                    Toast.makeText(this, "OTP sent", Toast.LENGTH_SHORT).show()
+                                    startActivity(intent)
+                                } else{
+                                    Toast.makeText(this, "OTP sent Already", Toast.LENGTH_SHORT).show()
+                                    startActivity(intent)
+                                }
+                            } else{
+                                val responseMessageServer =
+                                    response.getString("errorMessage")
+                                Toast.makeText(
+                                    this,
+                                    responseMessageServer.toString(),
+                                    Toast.LENGTH_SHORT
+                                ).show()                            }
+                        } catch (e : Exception){
+                            Toast.makeText(this, "Some error occurred!!!", Toast.LENGTH_SHORT).show()
                         }
-                    } catch (e : Exception){
-                        Toast.makeText(this, "Some error occurred!!!", Toast.LENGTH_SHORT).show()
+
+                    }, Response.ErrorListener {
+                        Toast.makeText(this, "Enter Correct Details!!!", Toast.LENGTH_SHORT).show()
+
+                    }){
+                        override fun getHeaders(): MutableMap<String, String> {
+                            val headers = HashMap<String,String>()
+                            headers["Content-type"] = "application/json"
+                            headers["token"] = "957582bfd2ec65"
+                            return headers
+                        }
                     }
-                                                                                                                
-                }, Response.ErrorListener {
-                    Toast.makeText(this, "Enter Correct Details!!!", Toast.LENGTH_SHORT).show()
-                    
-                }){
-                    override fun getHeaders(): MutableMap<String, String> {
-                        val headers = HashMap<String,String>()
-                        headers["Content-type"] = "application/json"
-                        headers["token"] = "957582bfd2ec65"
-                        return headers
-                    }
+                    queue.add(jsonObjectRequest)
                 }
-                queue.add(jsonObjectRequest)
+
             } else{
                 val dialog = AlertDialog.Builder(this)
                 dialog.setTitle("Error")
@@ -96,4 +110,26 @@ class ForgetPasswordActivity : AppCompatActivity() {
         }
 
     }
+
+    fun checkForError():Boolean{
+
+        var noError = 0
+
+        if(etMobileNumber.text.isBlank() || etMobileNumber.text.length!=10){
+            etMobileNumber.error = "Invalid Mobile Number"
+        }else
+        {
+            noError++
+        }
+
+        if(etEmail.text.isBlank()){
+            etEmail.error = "Email Missing!"
+        }else
+        {
+            noError++
+        }
+
+        return noError == 2
+    }
+
 }

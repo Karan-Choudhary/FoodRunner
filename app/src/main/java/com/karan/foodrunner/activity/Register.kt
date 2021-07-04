@@ -171,7 +171,7 @@ class Register : AppCompatActivity() {
 
     }
 
-    fun checkForErrors():Boolean{
+    private fun checkForErrors():Boolean{
         var noError = 0
 
         if(etName.text.isBlank()){

@@ -74,8 +74,8 @@ class ResetPasswordActivity : AppCompatActivity() {
                                     clearPreferences()
                                     val intent = Intent(this,LoginActivity::class.java)
                                     startActivity(intent)
-                                    finish()
                                     Toast.makeText(this, "Password Changed Successfully", Toast.LENGTH_SHORT).show()
+                                    finish()
                                 } else{
                                     Toast.makeText(this, "Unsuccessful!! Please try again later", Toast.LENGTH_SHORT).show()
                                 }

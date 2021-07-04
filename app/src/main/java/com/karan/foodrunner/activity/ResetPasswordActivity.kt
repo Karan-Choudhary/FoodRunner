@@ -6,9 +6,8 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import com.android.volley.Request
@@ -27,6 +26,10 @@ class ResetPasswordActivity : AppCompatActivity() {
     lateinit var btnSubmit:Button
     lateinit var sharedPreferences: SharedPreferences
 
+    lateinit var progressLayout:RelativeLayout
+    lateinit var progressBar: ProgressBar
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reset_password)
@@ -39,8 +42,13 @@ class ResetPasswordActivity : AppCompatActivity() {
         etConfirmPassword = findViewById(R.id.etConfirmPassword)
         btnSubmit = findViewById(R.id.btnSubmit)
 
+        progressLayout = findViewById(R.id.progress_Layout)
+        progressLayout.visibility = View.VISIBLE
+        progressBar = findViewById(R.id.progressBar)
+
             if(intent!=null)
             {
+                progressLayout.visibility = View.GONE
                 btnSubmit.setOnClickListener {
 
                         if(ConnectionManager().checkConnectivity(this))
@@ -59,6 +67,7 @@ class ResetPasswordActivity : AppCompatActivity() {
                                 val jsonObjectRequest = object: JsonObjectRequest(Request.Method.POST,url,jsonParams,Response.Listener {
 
                                     try {
+
                                         val response = it.getJSONObject("data")
                                         val success = response.getBoolean("success")
 
@@ -72,6 +81,7 @@ class ResetPasswordActivity : AppCompatActivity() {
                                             startActivity(intent)
                                             Toast.makeText(this, successMessage, Toast.LENGTH_SHORT).show()
                                             finish()
+
                                         } else{
                                             val responseMessageServer =
                                                 response.getString("errorMessage")
@@ -80,16 +90,22 @@ class ResetPasswordActivity : AppCompatActivity() {
                                                 responseMessageServer.toString(),
                                                 Toast.LENGTH_SHORT
                                             ).show()
+//                                            progressLayout.visibility = View.GONE
+//                                            progressBar.visibility = View.GONE
                                         }
 
                                     } catch (e : Exception)
                                     {
                                         Toast.makeText(this, "Some error occurred !!!", Toast.LENGTH_SHORT).show()
+//                                        progressLayout.visibility = View.GONE
+//                                        progressBar.visibility = View.GONE
                                     }
 
                                 },Response.ErrorListener {
 
                                     Toast.makeText(this, "Some unexpected error occurred!!!", Toast.LENGTH_SHORT).show()
+//                                    progressLayout.visibility = View.GONE
+//                                    progressBar.visibility = View.GONE
 
                                 }){
                                     override fun getHeaders(): MutableMap<String, String> {

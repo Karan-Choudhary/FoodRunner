@@ -54,58 +54,64 @@ class LoginActivity : AppCompatActivity() {
         txtForgetPassword = findViewById(R.id.txtForgetPassword)
         txtGoToSignUp = findViewById(R.id.txtGoToSignUp)
 
-        val phoneNum:String? = etMobileNumber.text.toString()
-        val pass:String? = etPassword.text.toString()
-
-        val queue = Volley.newRequestQueue(this)
-        val url = "http://13.235.250.119/v2/login/fetch_result/"
 
         btnLogin.setOnClickListener{
-
-            val jsonParams = JSONObject()
-            jsonParams.put("mobile_number",phoneNum)
-            jsonParams.put("password",pass)
-
-
             if(ConnectionManager().checkConnectivity(this))
             {
-                val jsonObjectRequest = object: JsonObjectRequest(Request.Method.POST,url,jsonParams,Response.Listener {
+                if (checkForError())
+                {
+                    val queue = Volley.newRequestQueue(this)
+                    val url = "http://13.235.250.119/v2/login/fetch_result/"
 
-                    try {
-                        val data = it.getJSONObject("data")
-                        val success = data.getBoolean("success")
+                    val jsonParams = JSONObject()
+                    jsonParams.put("mobile_number",etMobileNumber.text.toString())
+                    jsonParams.put("password",etPassword.text.toString())
 
-                        if(success)
-                        {
-                            val mainData = data.getJSONObject("data")
-                            savePreferences(
-                                mainData.getString("user_id"),
-                                mainData.getString("name"),
-                                mainData.getString("email"),
-                                mainData.getString("mobile_number"),
-                                mainData.getString("address"))
+                    val jsonObjectRequest = object: JsonObjectRequest(Request.Method.POST,url,jsonParams,Response.Listener {
 
-                            val intent = Intent(this,MainActivity::class.java)
-                            finish()
-                            startActivity(intent)
-                        }else{
-                            Toast.makeText(this, "INVALID Credentials", Toast.LENGTH_SHORT).show()
+                        try {
+                            val response = it.getJSONObject("data")
+                            val success = response.getBoolean("success")
+
+                            if(success)
+                            {
+                                val data = response.getJSONObject("data")
+                                sharedPreferences.edit().clear().apply()
+                                savePreferences(
+                                    data.getString("user_id"),
+                                    data.getString("name"),
+                                    data.getString("email"),
+                                    data.getString("mobile_number"),
+                                    data.getString("address"))
+
+                                val intent = Intent(this,MainActivity::class.java)
+                                finish()
+                                startActivity(intent)
+                            }else{
+                                val responseMessageServer =
+                                    response.getString("errorMessage")
+                                Toast.makeText(
+                                    this,
+                                    responseMessageServer.toString(),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        } catch (e : Exception){
+                            Toast.makeText(this, "Some Error Occurred!!!", Toast.LENGTH_SHORT).show()
                         }
-                    } catch (e : Exception){
-                        Toast.makeText(this, "Some Error Occurred!!!", Toast.LENGTH_SHORT).show()
-                    }
 
-                }, Response.ErrorListener {
-                    Toast.makeText(this, "Some Error Occurred, Please try again Later(VolleyError)", Toast.LENGTH_SHORT).show()
-                }){
-                    override fun getHeaders(): MutableMap<String, String> {
-                        val headers = HashMap<String,String>()
-                        headers["Content-type"] = "application/json"
-                        headers["token"] = "957582bfd2ec65"
-                        return headers
+                    }, Response.ErrorListener {
+                        Toast.makeText(this, "Some Error Occurred, Please try again Later(VolleyError)", Toast.LENGTH_SHORT).show()
+                    }){
+                        override fun getHeaders(): MutableMap<String, String> {
+                            val headers = HashMap<String,String>()
+                            headers["Content-type"] = "application/json"
+                            headers["token"] = "957582bfd2ec65"
+                            return headers
+                        }
                     }
+                    queue.add(jsonObjectRequest)
                 }
-                queue.add(jsonObjectRequest)
             } else{
                 val dialog = AlertDialog.Builder(this)
                 dialog.setTitle("Error")
@@ -145,6 +151,29 @@ class LoginActivity : AppCompatActivity() {
         sharedPreferences.edit().putString("email",email).apply()
         sharedPreferences.edit().putString("mobile_number",mobile_number).apply()
         sharedPreferences.edit().putString("address",address).apply()
+
+    }
+
+    fun checkForError():Boolean{
+
+        var noError = 0
+
+        if(etMobileNumber.text.isBlank() || etMobileNumber.text.length!=10)
+        {
+            etMobileNumber.error = "Invalid Mobile Number"
+        }else{
+            noError++
+        }
+
+        if(etPassword.text.isBlank())
+        {
+            etPassword.error = "Enter Password"
+        }else
+        {
+            noError++
+        }
+
+        return noError == 2
 
     }
 

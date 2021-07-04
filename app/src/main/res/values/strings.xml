@@ -6,6 +6,7 @@
     <string name="forget_password"><u>Forget Password?</u></string>
     <string name="goto_signup"><u>Don\'t have an account? Sign up now</u></string>
     <string name="preference_file_name">Login Preferences</string>
+    <string name="preference_register">registration Preferences</string>
     <string name="forget_page_text">Enter you registered mobile number and email below:</string>
     <string name="email_address">Email Address</string>
     <string name="head_text">Enter the received OTP below</string>

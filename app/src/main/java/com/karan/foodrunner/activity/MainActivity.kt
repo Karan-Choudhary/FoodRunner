@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
         val fragment = HomeFragment()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frame,fragment).commit()
-        supportActionBar?.title = "Home"
+        supportActionBar?.title = "All Restaurants"
         navigationView.setCheckedItem(R.id.goHome)
     }
 

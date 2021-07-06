@@ -39,7 +39,7 @@
                 android:textStyle="bold"/>
 
             <TextView
-                android:id="@+id/txtPrice"
+                android:id="@+id/txtFoodPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
@@ -67,7 +67,7 @@
                 android:outlineSpotShadowColor="@color/red_A700"/>
 
             <TextView
-                android:id="@+id/txtRating"
+                android:id="@+id/txtFoodRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"

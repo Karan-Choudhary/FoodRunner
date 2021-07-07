@@ -1,6 +1,6 @@
 package com.karan.foodrunner.model
 
-data class Food(
+data class Restaurant(
     val id: String,
     val name:String,
     val rating:String,

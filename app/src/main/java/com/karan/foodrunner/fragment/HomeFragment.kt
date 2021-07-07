@@ -22,7 +22,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.karan.foodrunner.R
 import com.karan.foodrunner.adapter.HomeRecyclerAdapter
-import com.karan.foodrunner.model.Food
+import com.karan.foodrunner.model.Restaurant
 import com.karan.foodrunner.util.ConnectionManager
 
 
@@ -34,7 +34,7 @@ class HomeFragment : Fragment() {
     lateinit var progressLayout: RelativeLayout
     private lateinit var progressBar: ProgressBar
 
-    val foodInfoList = arrayListOf<Food>()
+    val foodInfoList = arrayListOf<Restaurant>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,7 +67,7 @@ class HomeFragment : Fragment() {
                            for(i in 0 until data.length())
                            {
                                val foodJsonObject = data.getJSONObject(i)
-                               val foodObject = Food(
+                               val foodObject = Restaurant(
                                    foodJsonObject.getString("id"),
                                    foodJsonObject.getString("name"),
                                    foodJsonObject.getString("rating"),

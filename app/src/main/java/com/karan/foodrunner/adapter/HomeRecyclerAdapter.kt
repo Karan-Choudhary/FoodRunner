@@ -18,7 +18,7 @@ import com.karan.foodrunner.database.RestaurantEntity
 import com.karan.foodrunner.model.Restaurant
 import com.squareup.picasso.Picasso
 
-class HomeRecyclerAdapter(val context: Context, private val itemList:ArrayList<Restaurant>) :RecyclerView.Adapter<HomeRecyclerAdapter.HomeViewHolder>(){
+class HomeRecyclerAdapter(val context: Context, private var itemList:ArrayList<Restaurant>) :RecyclerView.Adapter<HomeRecyclerAdapter.HomeViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_home_single_row,parent,false)
@@ -31,9 +31,9 @@ class HomeRecyclerAdapter(val context: Context, private val itemList:ArrayList<R
 
         holder.txtFoodName.text = restaurant.name
         holder.txtFoodRating.text = restaurant.rating
-        holder.txtFoodPrice.text = restaurant.cost_for_one
+        holder.txtFoodPrice.text = restaurant.cost_for_one +"/Person"
 //        holder.imgFoodImage.setImageResource(food.foodImage)
-        Picasso.get().load(restaurant.image_url).into(holder.imgFoodImage)
+        Picasso.get().load(restaurant.image_url).error(R.drawable.ic_default_image_restaurant).into(holder.imgFoodImage)
 
         //Adding and removing from favourite using Database
         holder.txtFav.setOnClickListener {
@@ -78,6 +78,11 @@ class HomeRecyclerAdapter(val context: Context, private val itemList:ArrayList<R
         val imgFoodImage:ImageView = view.findViewById(R.id.imgRecyclerRowProfileImage)
         val llContent:LinearLayout = view.findViewById(R.id.llContent)
         val txtFav:TextView = view.findViewById(R.id.txtFav)
+    }
+
+    fun filterList(filteredList: ArrayList<Restaurant>){
+        itemList = filteredList
+        notifyDataSetChanged()
     }
 
     class DBAsyncTask(val context:Context, val restaurantEntity: RestaurantEntity, val mode:Int):AsyncTask<Void,Void,Boolean>(){

@@ -57,26 +57,28 @@
             android:layout_width="0dp"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/imgFav"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_favourite"
-                android:layout_alignParentRight="true"
-                android:outlineAmbientShadowColor="@color/red_A700"
-                android:outlineSpotShadowColor="@color/red_A700"/>
+            <TextView
+                android:id="@+id/txtFav"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:background="@drawable/ic_fav_outline"
+                android:tag="unliked" />
 
             <TextView
                 android:id="@+id/txtFoodRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:text="4.3"
-                android:layout_marginBottom="60dp"
-                android:textColor="@color/yellow_A200"
+                android:layout_below="@+id/txtFav"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:drawablePadding="4dp"
+                android:padding="4dp"
+                android:text="4.5"
+                android:textColor="#ffc107"
                 android:textSize="15sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </RelativeLayout>
 

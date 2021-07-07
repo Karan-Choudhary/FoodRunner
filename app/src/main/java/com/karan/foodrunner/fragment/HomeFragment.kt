@@ -32,7 +32,7 @@ class HomeFragment : Fragment() {
     lateinit var layoutManager: RecyclerView.LayoutManager
     lateinit var recyclerAdapter: HomeRecyclerAdapter
     lateinit var progressLayout: RelativeLayout
-    lateinit var progressBar: ProgressBar
+    private lateinit var progressBar: ProgressBar
 
     val foodInfoList = arrayListOf<Food>()
 

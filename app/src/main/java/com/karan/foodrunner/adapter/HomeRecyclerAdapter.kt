@@ -1,6 +1,5 @@
 package com.karan.foodrunner.adapter
 
-
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,7 @@ import com.karan.foodrunner.R
 import com.karan.foodrunner.model.Food
 import com.squareup.picasso.Picasso
 
-class HomeRecyclerAdapter(val context: Context, val itemList:ArrayList<Food>) :RecyclerView.Adapter<HomeRecyclerAdapter.HomeViewHolder>(){
+class HomeRecyclerAdapter(val context: Context, private val itemList:ArrayList<Food>) :RecyclerView.Adapter<HomeRecyclerAdapter.HomeViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_home_single_row,parent,false)
@@ -38,14 +37,14 @@ class HomeRecyclerAdapter(val context: Context, val itemList:ArrayList<Food>) :R
         return itemList.size
     }
 
-
     class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view)
     {
         val txtFoodName:TextView = view.findViewById(R.id.txtFoodName)
         val txtFoodPrice:TextView = view.findViewById(R.id.txtFoodPrice)
-        val txtFoodRating:TextView = view.findViewById(R.id.txtFoodPrice)
+        val txtFoodRating:TextView = view.findViewById(R.id.txtFoodRating)
         val imgFoodImage:ImageView = view.findViewById(R.id.imgRecyclerRowProfileImage)
         val llContent:LinearLayout = view.findViewById(R.id.llContent)
+        val txtFav:TextView = view.findViewById(R.id.txtFav)
     }
 
 }

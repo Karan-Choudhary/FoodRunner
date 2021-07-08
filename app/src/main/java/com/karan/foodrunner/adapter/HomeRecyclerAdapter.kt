@@ -2,6 +2,7 @@ package com.karan.foodrunner.adapter
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.AsyncTask
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +14,11 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.karan.foodrunner.R
+import com.karan.foodrunner.activity.RestaurantMenuActivity
 import com.karan.foodrunner.database.RestaurantDataBase
 import com.karan.foodrunner.database.RestaurantEntity
 import com.karan.foodrunner.model.Restaurant
+import com.karan.foodrunner.model.RestaurantMenu
 import com.squareup.picasso.Picasso
 
 class HomeRecyclerAdapter(val context: Context, private var itemList:ArrayList<Restaurant>) :RecyclerView.Adapter<HomeRecyclerAdapter.HomeViewHolder>(){
@@ -29,6 +32,7 @@ class HomeRecyclerAdapter(val context: Context, private var itemList:ArrayList<R
         val restaurant = itemList[position]
         val restaurantEntity = RestaurantEntity(restaurant.id,restaurant.name,restaurant.rating,restaurant.cost_for_one,restaurant.image_url)
 
+        holder.txtFoodName.tag = restaurant.id+""
         holder.txtFoodName.text = restaurant.name
         holder.txtFoodRating.text = restaurant.rating
         holder.txtFoodPrice.text = restaurant.cost_for_one +"/Person"
@@ -62,7 +66,11 @@ class HomeRecyclerAdapter(val context: Context, private var itemList:ArrayList<R
         }
         
         holder.llContent.setOnClickListener{
-            Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show()
+            println(holder.txtFoodName.tag.toString())
+            val intent = Intent(context as Activity,RestaurantMenuActivity::class.java)
+            intent.putExtra("restaurantId",holder.txtFoodName.tag.toString())
+            intent.putExtra("restaurantName",holder.txtFoodName.text.toString())
+            context.startActivity(intent)
         }
     }
 

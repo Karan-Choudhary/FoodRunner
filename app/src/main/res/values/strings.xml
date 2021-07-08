@@ -27,4 +27,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="name_of_food">Name of Food</string>
     <string name="price_of_food">Price of Food</string>
+    <string name="choose_from_menu_listed_below">Choose from menu listed below:</string>
+    <string name="proceed_to_cart">Proceed to Cart</string>
 </resources>

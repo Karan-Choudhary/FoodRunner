@@ -1,6 +1,7 @@
 package com.karan.foodrunner.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +12,28 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.karan.foodrunner.R
+import com.karan.foodrunner.activity.CartActivity
 import com.karan.foodrunner.model.RestaurantMenu
 
-class RestaurantMenuRecyclerAdapter(val context: Context,
-                                    private val proceedToCartPassed:RelativeLayout, val btnProceedToCart:Button, private var restaurantMenu:ArrayList<RestaurantMenu>) :RecyclerView.Adapter<RestaurantMenuRecyclerAdapter.RestaurantMenuViewHolder>() {
+class RestaurantMenuRecyclerAdapter(
+                                    val context: Context,
+                                    private val proceedToCartPassed:RelativeLayout,
+                                    private val btnProceedToCart:Button,
+                                    private val restaurantId:String,
+                                    private val restaurantName:String,
+                                    private var restaurantMenu:ArrayList<RestaurantMenu>) :RecyclerView.Adapter<RestaurantMenuRecyclerAdapter.RestaurantMenuViewHolder>() {
 
     var itemSelectedCount:Int = 0
     lateinit var proceedToCart:RelativeLayout
     var itemsSelectedId = arrayListOf<String>()
+
+    class RestaurantMenuViewHolder(view: View):RecyclerView.ViewHolder(view)
+    {
+        val txtSNo: TextView = view.findViewById(R.id.txtSNo)
+        val txtItemName : TextView = view.findViewById(R.id.txtItemName)
+        val txtItemPrice : TextView = view.findViewById(R.id.txtItemPrice)
+        val btnAddToCart : Button = view.findViewById(R.id.btnAddToCart)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RestaurantMenuViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_restaurant_menu_single_row,parent,false)
@@ -30,7 +45,11 @@ class RestaurantMenuRecyclerAdapter(val context: Context,
         proceedToCart = proceedToCartPassed
 
         btnProceedToCart.setOnClickListener {
-            Toast.makeText(context, "Proceed To cart Clicked", Toast.LENGTH_SHORT).show()
+            val intent = Intent(context,CartActivity::class.java)
+            intent.putExtra("restaurantId",restaurantId)
+            intent.putExtra("restaurantName",restaurantName)
+            intent.putExtra("selectedItemsId",itemsSelectedId)
+            context.startActivity(intent)
         }
 
         holder.btnAddToCart.setOnClickListener {
@@ -54,8 +73,8 @@ class RestaurantMenuRecyclerAdapter(val context: Context,
             }
         }
 
-        holder.btnAddToCart.tag = restaurantMenuItem.id+""
-        holder.txtSNo.text = (position+1).toString()
+        holder.btnAddToCart.tag = restaurantMenuItem.id+ ""
+        holder.txtSNo.text = (position + 1).toString()
         holder.txtItemName.text = restaurantMenuItem.name
         holder.txtItemPrice.text = "Rs. ${restaurantMenuItem.cost_for_one}"
     }
@@ -64,15 +83,8 @@ class RestaurantMenuRecyclerAdapter(val context: Context,
         return restaurantMenu.size
     }
 
-
-
-
-    class RestaurantMenuViewHolder(view: View):RecyclerView.ViewHolder(view)
-    {
-        val txtSNo: TextView = view.findViewById(R.id.txtSNo)
-        val txtItemName : TextView = view.findViewById(R.id.txtItemName)
-        val txtItemPrice : TextView = view.findViewById(R.id.txtItemPrice)
-        val btnAddToCart : Button = view.findViewById(R.id.btnAddToCart)
+    fun getSelectedItemCount():Int{
+        return itemSelectedCount
     }
 
 }

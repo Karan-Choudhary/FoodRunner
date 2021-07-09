@@ -109,6 +109,9 @@ class CartActivity : AppCompatActivity() {
                       {
                           Toast.makeText(this, "Order Placed", Toast.LENGTH_SHORT).show()
                           createNotification()
+                          val intent = Intent(this,OrderPlacedActivity::class.java)
+                          startActivity(intent)
+                          finishAffinity()
                       }else{
                           val responseMessageServer = response.getString("errorMessage")
                           Toast.makeText(this, responseMessageServer, Toast.LENGTH_SHORT).show()

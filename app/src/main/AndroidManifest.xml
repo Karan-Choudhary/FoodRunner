@@ -13,7 +13,8 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.FoodRunner">
-        <activity android:name=".activity.CartActivity"></activity>
+        <activity android:name=".activity.OrderPlacedActivity"></activity>
+        <activity android:name=".activity.CartActivity" />
         <activity android:name=".activity.RestaurantMenuActivity" />
         <activity android:name=".activity.Register" />
         <activity android:name=".activity.ResetPasswordActivity" />

@@ -29,4 +29,5 @@
     <string name="price_of_food">Price of Food</string>
     <string name="choose_from_menu_listed_below">Choose from menu listed below:</string>
     <string name="proceed_to_cart">Proceed to Cart</string>
+    <string name="food_name">Food Name</string>
 </resources>

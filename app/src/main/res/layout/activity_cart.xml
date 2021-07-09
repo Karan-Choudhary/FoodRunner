@@ -54,7 +54,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.09"
+                android:layout_weight="0.05"
                 android:background="#e2e2e2"
                 android:orientation="horizontal"
                 android:weightSum="1">
@@ -78,7 +78,8 @@
                     android:paddingStart="3dp"
                     android:textColor="@color/black"
                     android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:textAlignment="center"/>
 
             </LinearLayout>
 
@@ -92,7 +93,7 @@
                 android:id="@+id/recyclerCart"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.70"/>
+                android:layout_weight="0.74"/>
 
             <RelativeLayout
                 android:id="@+id/relativeLayoutProceedToCart"

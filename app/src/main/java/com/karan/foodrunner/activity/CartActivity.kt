@@ -1,8 +1,11 @@
 package com.karan.foodrunner.activity
 
 import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
@@ -10,10 +13,13 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.Placeholder
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
@@ -102,6 +108,7 @@ class CartActivity : AppCompatActivity() {
                       if(success)
                       {
                           Toast.makeText(this, "Order Placed", Toast.LENGTH_SHORT).show()
+                          createNotification()
                       }else{
                           val responseMessageServer = response.getString("errorMessage")
                           Toast.makeText(this, responseMessageServer, Toast.LENGTH_SHORT).show()
@@ -253,4 +260,36 @@ class CartActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
     }
+
+
+    fun createNotification() {
+        val notificationId = 1;
+        val channelId = "personal_notification"
+        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+        notificationBuilder.setSmallIcon(R.drawable.logo)
+        notificationBuilder.setContentTitle("Order Placed")
+        notificationBuilder.setContentText("Your order has been successfully placed!")
+        notificationBuilder.setStyle(
+            NotificationCompat.BigTextStyle()
+                .bigText("Ordered from ${restaurantName}. Please pay Rs.$totalAmount")
+        )
+
+        notificationBuilder.priority = NotificationCompat.PRIORITY_DEFAULT
+        val notificationManagerCompat = NotificationManagerCompat.from(this)
+        notificationManagerCompat.notify(notificationId, notificationBuilder.build())
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Order Placed"
+            val description = "Your order has been successfully placed!"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val notificationChannel = NotificationChannel(channelId, name, importance)
+            notificationChannel.description = description
+
+            val notificationManager =
+                (getSystemService(Context.NOTIFICATION_SERVICE)) as NotificationManager
+
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
+    }
+
 }

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.karan.foodrunner.R
 import com.karan.foodrunner.model.CartItems
 
-class CartRecyclerAdapter(val context: Context, val cartItems : ArrayList<CartItems>) : RecyclerView.Adapter<CartRecyclerAdapter.CartViewHolder>() {
+class CartRecyclerAdapter(val context: Context, private val cartItems : ArrayList<CartItems>) : RecyclerView.Adapter<CartRecyclerAdapter.CartViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_cart_single_row,parent,false)
@@ -25,7 +25,7 @@ class CartRecyclerAdapter(val context: Context, val cartItems : ArrayList<CartIt
     override fun getItemCount(): Int {
         return cartItems.size
     }
-    
+
     class CartViewHolder(view: View) : RecyclerView.ViewHolder(view)
     {
         val txtOrderItem : TextView = view.findViewById(R.id.txtOrderItem)

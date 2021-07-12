@@ -3,12 +3,123 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.MyProfileFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.MyProfileFragment"
+    android:background="@color/red_500">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:id="@+id/rlContent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        tools:ignore="UselessParent">
+
+        <ImageView
+            android:id="@+id/imgProfileImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_profile_image"
+            android:layout_centerHorizontal="true"
+            tools:ignore="ContentDescription" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="@color/red_500"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            app:cardCornerRadius="4dp"
+            android:layout_below="@+id/imgProfileImage">
+
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="@string/name"
+                android:textColor="@color/black"
+                android:gravity="center_vertical|center_horizontal"
+                android:backgroundTint="@color/white"
+                android:maxLines="1"
+                android:background="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvMobileNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="@color/red_500"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            app:cardCornerRadius="4dp"
+            android:layout_below="@+id/cvName">
+
+            <TextView
+                android:id="@+id/txtMobileNumber"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:textColor="@color/black"
+                android:text="@string/mobile_number_text"
+                android:gravity="center_vertical|center_horizontal"
+                android:backgroundTint="@color/white"
+                android:maxLines="1"
+                android:background="@color/white"
+                android:textSize="18sp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="@color/red_500"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            app:cardCornerRadius="4dp"
+            android:layout_below="@+id/cvMobileNumber">
+
+            <TextView
+                android:id="@+id/txtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:textColor="@color/black"
+                android:text="@string/email_address"
+                android:gravity="center_vertical|center_horizontal"
+                android:backgroundTint="@color/white"
+                android:maxLines="1"
+                android:background="@color/white"
+                android:textSize="18sp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvDelAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="@color/red_500"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            app:cardCornerRadius="4dp"
+            android:layout_below="@+id/cvEmailAddress">
+
+            <TextView
+                android:id="@+id/txtAddress"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:textColor="@color/black"
+                android:text="@string/delivery_address"
+                android:gravity="center_vertical|center_horizontal"
+                android:backgroundTint="@color/white"
+                android:maxLines="1"
+                android:background="@color/white"
+                android:textSize="18sp" />
+        </androidx.cardview.widget.CardView>
+
+
+    </RelativeLayout>
 
 </FrameLayout>

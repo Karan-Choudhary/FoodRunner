@@ -31,7 +31,6 @@ class OrderHistoryFragment : Fragment() {
     lateinit var layoutManager1: RecyclerView.LayoutManager
     lateinit var recyclerAdapter: OrderHistoryAdapter
     lateinit var orderHistoryLayout: RelativeLayout
-    lateinit var toolbar: androidx.appcompat.widget.Toolbar
     lateinit var noOrders: RelativeLayout
 
     override fun onCreateView(
@@ -43,7 +42,6 @@ class OrderHistoryFragment : Fragment() {
 
         recyclerOrderRestaurant = view.findViewById(R.id.recyclerOrderRestaurant)
         orderHistoryLayout = view.findViewById(R.id.orderHistoryLayout)
-        toolbar = view.findViewById(R.id.toolbar)
         noOrders = view.findViewById(R.id.noOrders)
 
         return view

@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
@@ -25,6 +27,10 @@ class FavouriteRestaurantsFragment : Fragment() {
     lateinit var progressBar: ProgressBar
     lateinit var recyclerAdapter: FavouriteRecyclerAdapter
     private lateinit var layoutManager: RecyclerView.LayoutManager
+
+    lateinit var whenNull:RelativeLayout
+    lateinit var imgNull:ImageView
+    lateinit var txtNull:TextView
 
     private var dbRestaurantList = listOf<RestaurantEntity>()
 
@@ -42,6 +48,10 @@ class FavouriteRestaurantsFragment : Fragment() {
            progressLayout.visibility = View.VISIBLE
            progressBar.visibility = View.VISIBLE
 
+           whenNull = view.findViewById(R.id.whenNull)
+           imgNull = view.findViewById(R.id.imgNull)
+           txtNull = view.findViewById(R.id.txtNull)
+
            layoutManager = LinearLayoutManager(activity as Context)
 
            dbRestaurantList = RetrieveFavourites(activity as Context).execute().get()
@@ -50,11 +60,18 @@ class FavouriteRestaurantsFragment : Fragment() {
            {
                progressLayout.visibility = View.GONE
                progressBar.visibility = View.GONE
+               whenNull.visibility = View.GONE
+               imgNull.visibility = View.GONE
+               txtNull.visibility = View.GONE
 
                recyclerAdapter = FavouriteRecyclerAdapter(activity as Context,dbRestaurantList)
                recyclerFavourite.adapter = recyclerAdapter
                recyclerFavourite.layoutManager = layoutManager
 
+           }else{
+               whenNull.visibility = View.VISIBLE
+               imgNull.visibility = View.VISIBLE
+               txtNull.visibility = View.VISIBLE
            }
 
         return view

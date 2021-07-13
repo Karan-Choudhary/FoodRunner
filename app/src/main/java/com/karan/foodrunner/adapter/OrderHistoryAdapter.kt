@@ -20,7 +20,7 @@ import com.karan.foodrunner.model.OrderHistoryRestaurant
 import com.karan.foodrunner.util.ConnectionManager
 import org.json.JSONException
 
-class OrderHistoryAdapter(val context: Context, val restaurantOrderList: ArrayList<OrderHistoryRestaurant>) : RecyclerView.Adapter<OrderHistoryAdapter.OrderHistoryViewHolder>() {
+class OrderHistoryAdapter(val context: Context, private val restaurantOrderList: ArrayList<OrderHistoryRestaurant>) : RecyclerView.Adapter<OrderHistoryAdapter.OrderHistoryViewHolder>() {
 
     class OrderHistoryViewHolder(view: View) : RecyclerView.ViewHolder(view){
 
@@ -100,6 +100,7 @@ class OrderHistoryAdapter(val context: Context, val restaurantOrderList: ArrayLi
                         return headers
                 }
             }
+                queue.add(jsonObjectRequest)
         } catch (e : JSONException){
                 Toast.makeText(context, "Some Unexpected error occurred !!!", Toast.LENGTH_SHORT).show()
             }        

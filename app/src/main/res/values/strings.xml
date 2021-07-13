@@ -32,4 +32,7 @@
     <string name="food_name">Food Name</string>
     <string name="ordering_from">Ordering From:</string>
     <string name="place_order_rs">Place Order (Rs)</string>
+    <string name="you_do_not_have_any_favourite_restaurants">You do not have any favourite restaurants</string>
+    <string name="restaurant_name">Restaurant Name</string>
+    <string name="your_previous_orders_are_listed_below">Your previous orders are listed below:</string>
 </resources>

@@ -168,6 +168,8 @@ class RestaurantMenuActivity : AppCompatActivity() {
 
                     }
                     alterDialog.show()
+                }else{
+                    super.onBackPressed()
                 }
             }
         }

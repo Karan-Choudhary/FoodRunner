@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun openHome()
     {
-        val fragment = HomeFragment()
+        val fragment = HomeFragment(this)
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frame,fragment).commit()
         supportActionBar?.title = "All Restaurants"

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.karan.foodrunner.R
 import com.karan.foodrunner.model.FaqItems
 
-class FaqsAdapter (context: Context, private val quesAnsList: ArrayList<FaqItems>) : RecyclerView.Adapter<FaqsAdapter.FaqsViewHolder>(){
+class FaqsRecyclerAdapter (context: Context, private val quesAnsList: ArrayList<FaqItems>) : RecyclerView.Adapter<FaqsRecyclerAdapter.FaqsViewHolder>(){
 
     class FaqsViewHolder(view : View) : RecyclerView.ViewHolder(view){
         val txtQuestion:TextView = view.findViewById(R.id.txtQuestion)

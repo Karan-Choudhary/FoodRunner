@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.faqs -> {
                     supportFragmentManager.beginTransaction().replace(R.id.frame,FaqsFragment()).commit()
-                    supportActionBar?.title = "FAQs"
+                    supportActionBar?.title = "Frequently Asked Questions"
                     drawerLayout.closeDrawers()
                 }
                 R.id.logout -> {

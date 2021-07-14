@@ -6,10 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.Toast
@@ -24,9 +22,12 @@ import com.karan.foodrunner.R
 import com.karan.foodrunner.adapter.HomeRecyclerAdapter
 import com.karan.foodrunner.model.Restaurant
 import com.karan.foodrunner.util.ConnectionManager
+import kotlinx.android.synthetic.main.sort_radio_button.view.*
+import java.util.*
+import kotlin.collections.HashMap
 
 
-class HomeFragment : Fragment() {
+class HomeFragment(val contextParam:Context) : Fragment() {
 
     lateinit var recyclerHome: RecyclerView
     lateinit var layoutManager: RecyclerView.LayoutManager
@@ -34,7 +35,23 @@ class HomeFragment : Fragment() {
     lateinit var progressLayout: RelativeLayout
     private lateinit var progressBar: ProgressBar
 
+    lateinit var radioButtonView:View
+
     val foodInfoList = arrayListOf<Restaurant>()
+
+// sort Ascending to cost(decreasing)
+    var costComparator = Comparator<Restaurant>{rest1,rest2 ->
+    rest1.cost_for_one.compareTo(rest2.cost_for_one,true)
+    }
+
+//  sort According to ratings
+    var ratingComparator = Comparator<Restaurant>{ rest1, rest2 ->
+    if(rest1.rating.compareTo(rest2.rating,true)==0){
+        rest1.name.compareTo(rest2.name,true)
+    } else {
+        rest1.rating.compareTo(rest2.rating,true)
+    }
+}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +59,8 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        setHasOptionsMenu(true)
 
         recyclerHome = view.findViewById(R.id.recyclerHome)
         progressLayout = view.findViewById(R.id.progress_Layout)
@@ -125,5 +144,41 @@ class HomeFragment : Fragment() {
             dialog.show()
         }
         return view
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater?.inflate(R.menu.menu_home,menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item?.itemId
+        if(id == R.id.action_sort){
+            radioButtonView = View.inflate(contextParam,R.layout.sort_radio_button,null)
+            val dialog = AlertDialog.Builder(activity as Context)
+            dialog.setTitle("Sort by?")
+            dialog.setView(radioButtonView)
+            dialog.setPositiveButton("OK"){_,_ ->
+                if(radioButtonView.radio_high_to_low.isChecked){
+                    Collections.sort(foodInfoList,costComparator)
+                    foodInfoList.reverse()
+                    recyclerAdapter.notifyDataSetChanged()
+                }
+                if(radioButtonView.radio_low_to_high.isChecked){
+                    Collections.sort(foodInfoList,costComparator)
+                    recyclerAdapter.notifyDataSetChanged()
+                }
+                if(radioButtonView.radio_rating.isChecked){
+                    Collections.sort(foodInfoList,ratingComparator)
+                    foodInfoList.reverse()
+                    recyclerAdapter.notifyDataSetChanged()
+                }
+            }
+            dialog.setNegativeButton("Cancel"){_,_ ->
+
+            }
+            dialog.create()
+            dialog.show()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

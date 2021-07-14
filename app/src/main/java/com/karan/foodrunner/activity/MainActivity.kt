@@ -1,10 +1,12 @@
 package com.karan.foodrunner.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.FrameLayout
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
@@ -84,9 +86,27 @@ class MainActivity : AppCompatActivity() {
                     drawerLayout.closeDrawers()
                 }
                 R.id.logout -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.frame,LogoutFragment()).commit()
-                    supportActionBar?.title = "Logout"
+//                    supportFragmentManager.beginTransaction().replace(R.id.frame,LogoutFragment()).commit()
+//                    supportActionBar?.title = "Logout"
                     drawerLayout.closeDrawers()
+
+                    val sharedPreferences = getSharedPreferences(getString(R.string.preference_file_name),
+                        MODE_PRIVATE)
+
+                    val dialog = AlertDialog.Builder(this)
+                    dialog.setTitle("Confirmation")
+                    dialog.setMessage("Are you sure you want to exit?")
+                    dialog.setPositiveButton("YES"){_,_ ->
+                        sharedPreferences.edit().putBoolean("isLoggedIn",false).apply()
+                        val intent = Intent(this,LoginActivity::class.java)
+                        startActivity(intent)
+                        this.finish()
+                    }
+                    dialog.setNegativeButton("NO"){_,_ ->
+                        openHome()
+                    }
+                    dialog.create()
+                    dialog.show()
                 }
             }
             return@setNavigationItemSelectedListener true

@@ -6,7 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
@@ -34,6 +37,8 @@ class HomeFragment(val contextParam:Context) : Fragment() {
     lateinit var recyclerAdapter: HomeRecyclerAdapter
     lateinit var progressLayout: RelativeLayout
     private lateinit var progressBar: ProgressBar
+    lateinit var etSearch : EditText
+    lateinit var cantFind:RelativeLayout
 
     lateinit var radioButtonView:View
 
@@ -61,6 +66,9 @@ class HomeFragment(val contextParam:Context) : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         setHasOptionsMenu(true)
+
+        etSearch = view.findViewById(R.id.etSearch)
+        cantFind = view.findViewById(R.id.cantFind)
 
         recyclerHome = view.findViewById(R.id.recyclerHome)
         progressLayout = view.findViewById(R.id.progress_Layout)
@@ -143,6 +151,39 @@ class HomeFragment(val contextParam:Context) : Fragment() {
             dialog.create()
             dialog.show()
         }
+
+
+        fun filterFun(strTyped : String){
+            val filteredList = arrayListOf<Restaurant>()
+            for(item in foodInfoList){
+                if(item.name.toLowerCase(Locale.ROOT).contains(strTyped.toLowerCase(Locale.ROOT))){
+                    filteredList.add(item)
+                }
+            }
+            if(filteredList.size==0){
+                cantFind.visibility = View.VISIBLE
+            } else {
+                cantFind.visibility = View.INVISIBLE
+            }
+            recyclerAdapter.filterList(filteredList)
+        }
+
+
+        etSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(strTyped: Editable?) {
+                filterFun(strTyped.toString())
+            }
+        })
+
+
         return view
     }
 

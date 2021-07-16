@@ -29,8 +29,7 @@ class FavouriteRestaurantsFragment : Fragment() {
     private lateinit var layoutManager: RecyclerView.LayoutManager
 
     lateinit var whenNull:RelativeLayout
-    lateinit var imgNull:ImageView
-    lateinit var txtNull:TextView
+
 
     private var dbRestaurantList = listOf<RestaurantEntity>()
 
@@ -49,8 +48,7 @@ class FavouriteRestaurantsFragment : Fragment() {
            progressBar.visibility = View.VISIBLE
 
            whenNull = view.findViewById(R.id.whenNull)
-           imgNull = view.findViewById(R.id.imgNull)
-           txtNull = view.findViewById(R.id.txtNull)
+
 
            layoutManager = LinearLayoutManager(activity as Context)
 
@@ -60,18 +58,18 @@ class FavouriteRestaurantsFragment : Fragment() {
            {
                progressLayout.visibility = View.GONE
                progressBar.visibility = View.GONE
-               whenNull.visibility = View.GONE
-               imgNull.visibility = View.GONE
-               txtNull.visibility = View.GONE
 
                recyclerAdapter = FavouriteRecyclerAdapter(activity as Context,dbRestaurantList)
                recyclerFavourite.adapter = recyclerAdapter
                recyclerFavourite.layoutManager = layoutManager
 
-           }else{
+           }
+
+           if(dbRestaurantList.isEmpty())
+           {
                whenNull.visibility = View.VISIBLE
-               imgNull.visibility = View.VISIBLE
-               txtNull.visibility = View.VISIBLE
+           }else{
+               whenNull.visibility = View.INVISIBLE
            }
 
         return view

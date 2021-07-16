@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
@@ -23,6 +24,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var frameLayout: FrameLayout
     private lateinit var navigationView: NavigationView
 
+    lateinit var txtUserName:TextView
+    lateinit var txtUserNum:TextView
+
     private var previousMenuItem:MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +39,17 @@ class MainActivity : AppCompatActivity() {
         frameLayout = findViewById(R.id.frame)
         navigationView = findViewById(R.id.navigationView)
 
+        val headerView = navigationView.getHeaderView(0)
+        txtUserName = headerView.findViewById(R.id.txtUserName)
+        txtUserNum = headerView.findViewById(R.id.txtUserNum)
+
+        val sharedPreferences = getSharedPreferences(getString(R.string.preference_file_name),
+            MODE_PRIVATE)
+
         setUpToolbar()
+
+        txtUserName.text = sharedPreferences.getString("name","User")
+        txtUserNum.text = sharedPreferences.getString("mobile_number","0000000000")
 
         openHome()
 
